@@ -18,7 +18,7 @@ class ViewController: UIViewController {
 
         let audioSession = AVAudioSession.sharedInstance()
         try? audioSession.setCategory(.playAndRecord)
-        try? audioSession.setMode(.voiceChat)
+//        try? audioSession.setMode(.voiceChat)
         try? audioSession.setActive(true)
 
         NotificationCenter.default.addObserver(

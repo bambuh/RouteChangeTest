@@ -7,14 +7,41 @@
 //
 
 import UIKit
+import AVFoundation
+import ExternalAccessory
+
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        let audioSession = AVAudioSession.sharedInstance()
+        try? audioSession.setCategory(.playAndRecord)
+        try? audioSession.setMode(.voiceChat)
+        try? audioSession.setActive(true)
+
+        NotificationCenter.default.addObserver(
+            forName: AVAudioSession.routeChangeNotification,
+            object: nil,
+            queue: nil,
+            using: routeChanged(notif:) )
+
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name.EAAccessoryDidConnect,
+            object: nil,
+            queue: nil,
+            using: accessoryConnected(notif:) )
+
+        EAAccessoryManager.shared().registerForLocalNotifications()
     }
 
+    @objc private func routeChanged(notif: Notification) {
+        print(#function, notif)
+    }
+
+    @objc private func accessoryConnected(notif: Notification) {
+        print(#function, notif)
+    }
 
 }
-
